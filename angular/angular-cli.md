@@ -56,6 +56,12 @@ npm -v
 
 ## 2. Install Angular CLI
 
+to get the avaiable `angular CLI` versions
+```bash
+npm view @angular/cli versions --json
+npm view @angular/cli versions --xml
+```
+
 to install only latest version of angular CLI
 ```bash
 npm install -g @angular/cli
