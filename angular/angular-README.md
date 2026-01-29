@@ -9,7 +9,7 @@
 nvm install 23.11.0
 ```
 
-**bold**
+**bold** <br/>
 *italic*
 
 > Note: Important behavior
@@ -24,6 +24,9 @@ callout blocks:
 > Text
 
 > [!WARNING]
+> Text
+
+> [!ALERT]
 > Text
 
 
