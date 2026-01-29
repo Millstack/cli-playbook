@@ -112,10 +112,15 @@ npm uninstall -g @angular/cli
 ```bash
 ng new app-name
 ```
-
 `options`
 * Routing: Yes
 * Styles: CSS / SCSS / Tailwind
+* Server Side Rendering (SSR) & Static Site Generation (SSG): No (only for SEO, faster first paint or pre-rendered pages)
+
+Minimal Enterprise Default Command
+```bash
+ng new my-app --style=css --routing --strict --skip-tests
+```
 
 <br/>
 
