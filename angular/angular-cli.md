@@ -207,38 +207,171 @@ export const environment = {
 
 ## 7. Common Code Generation Commands
 
-7.1 `Components`
+7.1 `Generate Command Options`
+```bash
+# generate 4 files: componentname.html, componentname.ts, componentname.css & componentname.spec.ts
+ng generate component foldername/componentname
+```
+```bash
+# generate 3 files: componentname.html, componentname.ts & componentname.css
+ng generate component foldername/componentname --skip-tests
+```
+```bash
+# short form for generate component
+ng g c foldername/componentname --skip-tests
+
+# short form for generate service
+ng g s services/auth
+
+# short form for generate module
+ng g m features/shared/models/CommonModels
+```
+```bash
+# shows the intended outcome of the command in the console only, but no physical output
+ng g c foldername/componentname --skip-tests --dry-run
+```
 
 <br/>
 
-7.X `XXXXX`
+7.1 `Generate Component`
+```bash
+ng g c foldername/componentname --skip-tests
+```
 
 <br/>
 
-7.X `XXXXX`
+7.2 `Generate Service`
+```bash
+ng g s core/auth/interceptors/auth.interceptor --skip-tests
+```
 
 <br/>
 
-7.X `XXXXX`
+7.3 `Generate Module`
+```bash
+# --flat prevents angular CLI from creating a new folder for the generated file
+ng g m features/shared/models/CommonModels --flat
+
+features/shared/models/common-models.module.ts ✅
+features/shared/models/CommonModels/common-models.module.ts ❌
+```
 
 <br/>
 
-7.X `XXXXX`
+7.4 `Generate Guard`
+```bash
+ng g guard core/guards/auth --skip-tests
+```
+<br/>
+
+7.5 `Generate Interceptor`
+```bash
+ng g interceptor auth
+```
+<br/>
+
+7.6 `Generate Pipe`
+```bash
+ng generate pipe shared/capitalize
+```
 
 <br/>
 
-7.X `XXXXX`
+7.7 `Generate Interfaces / Models`
+```bash
+ng g i models/order
+```
 
 <br/>
 
-7.X `XXXXX`
+7.8 `Generate Enum`
+```bash
+ng generate enum models/status
+```
 
 <br/>
 
-7.X `XXXXX`
+## 8. Dependency Management
 
+```bash
+npm install <package>
+npm uninstall <package>
+npm update
+npm audit fix
+```
 <br/>
 
-7.X `XXXXX`
+## 9. Angular CLI equivalent & Modern Flags
+```bash
+ng serve
+ng build
+ng build --configuration production
+ng test
+ng lint
+```
 
+`Serve`
+```bash
+ng serve
+ng serve --open / -o
+ng serve --hmr
+ng serve --ssl
+ng serve --port 4201
+ng serve --host 0.0.0.0
+ng serve --proxy-config proxy.conf.json
+ng serve --configuration production
+```
 <br/>
+
+`Build`
+```bash
+ng build
+ng build --configuration production   // modern replacement for --prod
+ng build --watch
+ng build --source-map
+ng build --stats-json
+ng build --base-href /app/
+ng build --deploy-url /cdn/
+ng build --output-path dist/app
+ng build --output-hashing all
+```
+<br/>
+
+`Test`
+```bash
+ng test
+ng test --watch=false
+ng test --browsers=ChromeHeadless
+ng test --code-coverage
+```
+<br/>
+
+`Lint`
+```bash
+ng lint
+ng lint --fix
+```
+<br/>
+
+`Cache / Performance`
+```bash
+ng cache clean
+ng build --no-cache
+```
+<br/>
+
+`SSR / Advanced`
+```bash
+ng add @angular/ssr
+ng serve --configuration development
+ng build --configuration staging
+```
+<br/>
+
+## 10. Clean-Up / Reset
+```bash
+# eliminate corrupted, stale, or incompatible dependency state
+# if errors survive code changes, upgrades, or environment switches → reset dependency state
+rm -rf node_modules package-lock.json
+npm install
+```
