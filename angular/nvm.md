@@ -36,6 +36,14 @@ nvm --version
 
 ## 3. Node Installation
 
+`to check the available node LTS versions, partial 20 records`
+```bash
+nvm list available # windows
+nvm ls-remote --lts # linux
+```
+
+The command only provides only 20 records, to get complete versions, browse to [node version release](https://nodejs.org/en/download/releases)
+
 `install latest current node version`
 ```bash
 nvm install node
