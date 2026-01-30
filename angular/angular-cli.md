@@ -119,7 +119,10 @@ ng new app-name
 
 Minimal Enterprise Default Command
 ```bash
-ng new my-app --style=css --routing --strict --skip-tests
+ng new my-app --style=css --routing --strict --ssr=false
+```
+```bash
+ng new my-app --style=css --routing --strict --ssr=false --skip-tests
 ```
 
 <br/>
