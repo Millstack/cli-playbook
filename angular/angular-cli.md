@@ -62,6 +62,8 @@ npm view @angular/cli versions --json
 npm view @angular/cli versions --xml
 ```
 
+More Angular CLI versions can be browsed at [npm angular/cli](https://www.npmjs.com/package/@angular/cli?activeTab=versions)
+
 to install only latest version of angular CLI
 ```bash
 npm install -g @angular/cli
@@ -123,6 +125,34 @@ ng new my-app --style=css --routing --strict --ssr=false
 ```
 ```bash
 ng new my-app --style=css --routing --strict --ssr=false --skip-tests
+```
+
+<br>
+
+>[!NOTE]
+>- For creating multiple angular projects with different versions, need to install different angular cli versions
+>- Globally there will be always 1 Angular CLI version, to change we need to uninstall it and then install new one
+>- To keep different Angular CLI versions, need to install local angular CLIs into different project directory, isolating them from global version
+
+<br>
+
+`Multiple Angular CLI Projects`
+- Creating isolated higher Angular CLI version project, irrespective of global CLI version
+- After going to desired project directory
+
+```bash
+nvm install 22.22.0 # to install latest node LTS version, if not downloaded
+nvm use 22.22.0 # select the required node LTS version
+```
+```bash
+# scaffold command (project generator / project initializer)
+npx -p @angular/cli@20 ng new angular-portfolio --style=css --routing --strict --ssr=false --skip-tests
+```
+```bash
+npx -p @angular/cli@20
+```
+```bash
+ng new angular-portfolio --style=css --routing --strict --ssr=false --skip-tests
 ```
 
 <br/>
