@@ -86,6 +86,9 @@ Variables allow your scripts to be dynamic rather than hard-coded. Following are
    name='nginx' #string value
    versionnn=2 #numeric value
    ```
+>[!WARNING]  
+>  Assignment: No spaces around = (e.g., `NAME="MILIND"`, not `NAME = "MILIND"`)
+
 3. `Environment`: Built-in system variables eg:
    ```bash
    #!/bin/bash
@@ -204,7 +207,117 @@ This shows how these parameters work together in a production-ready script
 > * `${10}` is mandatory; `$10` without braces is interpreted by Bash as `$1` followed by a literal `0`
 > * Use the `shift` command to move arguments to the left (`$2` becomes `$1`) when processing long lists of files.
 
+<br>
 
+## 5. Control Flow: Conditionals (if/else)
+
+This is where your script begins to "think."  
+Like any other programming langauge like Java or C#, there are operator types and this typesa are used for different conditions, to achieve different goals
+
+>[!WARNING]
+> * Bash operators are categorized by the type of `data` they manipulate
+> * Using the wrong operator for the data type is the #1 cause of `bugs` in shell scripts.
+
+<br>
+
+**`Types of Oeprations in bash scripting`**
+
+1. **Arithmetic Operators**: Used for math.
+   * **Context**: Must be used inside `(( ))` or with the let command
+   * **Logic**: Standard math symbols apply (`+`, `-`, `*`, `/`, `%` `**`)
+
+2. **Comparison Operators** (Integer vs. String)
+   * **Integer**: Use mnemonic flags (`-eq`, -`ne`, -`lt`, -`gt)` inside `[[ ]]` OR use symbols inside `(( ))`
+   * **String**: Use symbols (==, !=, <, >) inside `[[ ]]`
+
+3. **File Test Operators** : These are unique to shell scripting and allow you to check the filesystem state before executing commands
+
+4. **Logical Operators**: Used to combine multiple tests
+   * `&&` (AND): Run second command only if the first succeeds
+   * `||` (OR): Run second command only if the first fails
+
+<br>
+
+1. The `[ ]` (test) vs `[[ ]]` (extended test)
+   * `[ ]` is the `POSIX` standard. It is portable but finicky with spaces and wildcards
+   * `[[ ]]` is a Bash-specific keyword. It is safer, supports logical operators like `&&` and `||` natively, and handles empty variables better
+   * Use `[[ ]]` for Bash scripts as per industry standard
+
+2. **Numeric Comparisons**: These use "`mnemonic`" flags
+   * `-eq` (Equal)
+   * `-ne` (Not Equal)
+   * `-gt` (Greater Than)
+   * `-lt` (Less Than)
+   * Alternative: Use `(( ))` for C-style math logic. example: `if (( var > 10 )); then`
+   
+3. **String Comparisons**: These use `mathematical` symbols
+   * `==` (Equal)
+   * `!=` (Not Equal)
+   * `-z` (String is empty)
+   * `-n` (String is NOT empty)
+
+4. **File Testing**: One of the most powerful features for automation
+   * `-f` (Check if file exists)
+   * `-d` (Check if directory exists)
+   * `-x` (Check if executable)
+
+<br>
+
+### Industrial Standard Approaches
+
+1. **The "Early Exit" Pattern**: Instead of nesting `if` statements deep, exit early if a condition isn't met. This keeps code readable (flat logic)
+2. **Double Quoting**: Always quote variables inside `[ ]` to prevent errors if a variable is null or contains spaces
+3. **Logical Combining**: Use `[[ $A == $B && $C == $D ]]` instead of nested if blocks
+
+example:
+```bash
+#!/bin/bash
+
+# Industrial Standard: Robust File & Service Check
+SERVICE_NAME="$1"
+
+# 1. Validation: Ensure argument is provided
+if [[ -z "$SERVICE_NAME" ]]; then
+    echo "Error: No service name provided."
+    echo "Usage: $0 <service_name>"
+    exit 1
+fi
+
+# 2. Logic: Check status
+if systemctl is-active --quiet "$SERVICE_NAME"; then
+    echo "[OK] $SERVICE_NAME is running."
+else
+    echo "[WARN] $SERVICE_NAME is down. Restarting..."
+    sudo systemctl restart "$SERVICE_NAME" || { echo "Failed to restart!"; exit 1; }
+fi
+```
+
+<br>
+
+| Comparison Type         | Syntax Example            | Notes & Description                                          |
+| :---                    | :---                      | :---                                                         |
+| Numeric                 | `[[ $a -eq $b ]]`         | Use `-gt` ( > ), `-lt` ( < ), `-ge` ( >= ), `-le` ( <=)      |
+| String                  | `[[ "$a" == "$b" ]]`      | Always quote strings to handle spaces safely                 |
+| Logical AND             | `[[ cond1 && cond2 ]]`    | Returns `true` only if both conditions are me                |                     
+| Logical OR              | `[[ cond1 || cond2 ]]`    | Returns `true` if at least one condition is met              |
+| Null Check              | `[[ -z "$var" ]]`         | Returns true if the string length is zero (empty variable)   |
+| File Exists             | `[[ -f "$file" ]]`        | `-f` regular file, `-d` directory, `-e` any existence        |
+
+<br>
+
+> [!NOTE]
+> * Indentation: Use 2 or 4 spaces consistently. Never mix tabs and spaces
+> * The `then` placement: The industry standard is to put then on the same line as the if using a semicolon: `if [[ ... ]]; then`
+> * Exit Codes: Always provide a non-zero exit code (exit 1) when a script fails a conditional check
+>    example:
+>   ```bash
+>   # 1. Validation: Ensure argument is provided
+>   if [[ -z "$SERVICE_NAME" ]]; then
+>    echo "Error: No service name provided."
+>    echo "Usage: $0 <service_name>"
+>    exit 1
+>   fi
+>   ```
 
 
 
