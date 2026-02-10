@@ -86,15 +86,137 @@ There are two primary ways to execute your scripts:
 
 ## 4. Text Editor: **Vim**
 
+In the world of Linux and Cloud Engineering, the ability to edit files directly in the terminal is a non-negotiable skill. When you are SSH’d into a remote AWS EC2 instance or a production server, you won’t have a GUI (Graphical User Interface). You only have the command line.
 
+### 1. Text Editors in the Industry
+a. **CLI-Based** (Terminal): Operates entirely within the `shell`. Essential for remote server management
+   * **`Vim/Vi`**: The industry standard. High learning curve, but extremely powerful
+   * **`Nano`**: Simple and beginner-friendly, but lacks advanced automation features
+   
+<br>
 
+b. **GUI-Based** (Local Development): Used on your local machine to write code before pushing to the cloud
+   * **`VS Code`**: The most popular choice for Full Stack engineers due to its massive extension library
+   * **`Sublime Text`**: Lightweight and fast
 
+**Why Vim is Used Industry-Wide**  
+* Vim is pre-installed on almost every Linux distribution and macOS
+* **Resource Efficient**: It uses almost no RAM or CPU
+* **Speed**: Once learned, you can edit code without ever touching your mouse
+* **Ubiquity**: Whether you are on a legacy server from 2010 or a brand new Docker container, vi or vim will be there
 
+### 2. Mastering Vim Logic: The "Modes"
+
+Unlike VS Code, Vim has Modes. You cannot just start typing
+1. **Normal Mode** (`Esc`): For navigating and deleting
+2. **Insert Mode** (`i`): For actually typing text
+3. **Command Mode** (`:`): For saving, quitting, and settings
+
+### 3. Essential Vim Shortcuts Reference
+
+Navigation (Normal Mode)
+
+| Shortcut	| Action	                  | Cloud Use Case                               |
+|-----------|--------------------------|----------------------------------------------|
+| `gg`	   | Jump to the first line	| Checking the Shebang (#!/bin/bash).          |
+| `G`	      | Jump to the last line	   | Checking the end of a long log file.         |
+| `0`	      | Jump to start of line	   | Moving to the beginning of a command.        |
+| `$`	      | Jump to end of line	   | Appending a redirect like 2> /dev/null.      |
+| `w`	      | Jump word by word	      | Moving quickly through a long line of code   |
 
 <br>
 
+Editing & Survival
 
-## 5. Data Handling & Variables
+| Shortcut | Action                       | Note                                |
+|----------|------------------------------|-------------------------------------|
+| `i`      | Enter Insert Mode            | Start typing before the cursor.     | 
+| `x`      | Delete a single character    | Quick fix for typos in Normal mode. | 
+| `dd`     | Delete (Cut) an entire line  | Removes a line of code.             | 
+| `yy`     | Copy (Yank) a line           | Used for duplicating config lines.  | 
+| `p`      | Paste                        | Paste after the cursor.             | 
+| `u`      | Undo                         | Revert your last mistake.           | 
+
+<br>
+
+Saving and Exiting (Command Mode)
+
+| Command     | Action                                                | 
+|-------------|-------------------------------------------------------|
+| `:w `       | Save (Write).                                         | 
+| `:q`        | Quit.                                                 | 
+| `:w`q       | Save and Exit (The most used command).                | 
+| `:q!`       | Force quit without saving (Use when you messed up).   | 
+
+<br>
+
+### 4. Searching & Large File Navigation
+
+When a script or log file has 5,000 lines, you cannot scroll. You must `search`.
+
+The Search Command: `/`
+
+In Normal Mode, type `/ `followed by your `term` and hit Enter
+* **Example**: `/DATABASE_URL` — This highlights all instances of that variable
+* **Next Match**: Press `n` to jump to the next occurrence
+* **Previous Match**: Press `N` (Shift + N) to jump back
+
+<br>
+
+**Partial Word & Pattern Searching**
+
+* **Partial**: `/log` will find "logger", "logging", and "logfiles"
+* **Start of Line**: `/^ERROR` finds only lines that start with the word "ERROR"
+* **End of Line**: `/done$` finds only lines that end with the word "done"
+
+<br>
+
+## 5. The `.vimrc` Configuration File
+
+* The `.vimrc` file is a script located in your home directory (`~/.vimrc` or `/home/ubuntu/.vimrc`)
+* Vim reads this file every time it starts to apply your personal preferences.
+* Why it matters for a Cloud Engineer:
+  - When you are jumping between different environments, having a standard `.vimrc` makes every server feel like "home"
+  - It ensures your tabs are consistent (so your Python/YAML code doesn't break) and makes code readable with line numbers.
+
+<br>
+
+### Creating your **`.vimrc`**
+```bash
+# Navigate to home and create the file
+cd ~
+vim .vimrc
+```
+
+Professional Industrial Standard Configuration
+```bash
+" --- Appearance ---
+syntax on            " Enable syntax highlighting
+set number           " Show line numbers on the left
+set cursorline       " Highlight the current line for better visibility
+
+" --- Indentation ---
+set tabstop=4        " Number of spaces a tab counts for
+set shiftwidth=4     " Number of spaces for auto-indent
+set expandtab        " Convert tabs to spaces (Essential for YAML/CloudFormation)
+set autoindent       " Copy indent from current line when starting a new one
+
+" --- Search ---
+set hlsearch         " Highlight all search matches
+set incsearch        " Show matches as you type
+set ignorecase       " Ignore case in search patterns
+set smartcase        " Override 'ignorecase' if search contains capitals
+```
+
+<br>
+
+>[!NOTE]
+>* In the industry, engineers often keep their `.vimrc` in a GitHub Dotfiles repository.
+>* When they join a new project or spin up a new server, they simply curl their config file from git repo
+
+<br>
+
+## 6. Data Handling & Variables
 
 Variables allow your scripts to be dynamic rather than hard-coded. Following are the use of variables
 - to hold data one time, and repeate the variable instead of hard-coded data throughout the script
@@ -145,7 +267,7 @@ Types of user input:
 
 <br>
 
-## 6. Script Arguments (Runtime Inputs)
+## 7. Script Arguments (Runtime Inputs)
 
 Arguments allow you to pass data into a script at the moment of execution using an index-based approach.  
 In Bash scripting, arguments passed to a script are referred to as `Positional Parameters` ($0, $1, $2, etc.)  
@@ -234,7 +356,7 @@ This shows how these parameters work together in a production-ready script
 
 <br>
 
-## 7. Control Flow: Types of Operators
+## 8. Control Flow: Types of Operators
 
 This is where your script begins to "think."  
 Like any other programming langauge like Java or C#, there are operator types and this typesa are used for different conditions, to achieve different goals
@@ -359,7 +481,7 @@ Comprehensive Comparition Table
 
 <br>
 
-## 8. Control Flow: Conditionals (if/else)
+## 9. Control Flow: Conditionals (if/else)
 
 In industrial automation, the if statement is the "gatekeeper." It ensures that a script doesn't execute dangerous commands (like deleting a database) unless specific safety conditions are met.
 
@@ -448,7 +570,7 @@ fi
 
 <br>
 
-## 9. Control Flow: File Test Operators
+## 10. Control Flow: File Test Operators
 
 In Linux, "`everything is a file`" and Test operators allow you to probe the metadata of a file or directory before performing an action.
 
@@ -515,7 +637,7 @@ fi
 
 <br>
 
-## 10. Control Flow: 
+## 11. Control Flow: 
 
 
 
