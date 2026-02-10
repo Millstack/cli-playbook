@@ -197,6 +197,7 @@ This shows how these parameters work together in a production-ready script
 1. `The Usage Pattern`: Use `$0` and `$#` to guide the user
 2. `The Wrapper Pattern`: Use `"$@"` to pass all arguments from one script/function to another command (maintaining spaces in filenames)
 3. `The Cleanup Pattern`: Use `$$` to ensure that if multiple instances of your script run, they don't overwrite each other's temporary files
+4. `Exit Status`: The most important "operator" in a sense is `$?`. In professional scripts, every major command is followed by a check to see if the previous `exit status` was `0`
 
 <br>
 
@@ -209,7 +210,7 @@ This shows how these parameters work together in a production-ready script
 
 <br>
 
-## 5. Control Flow: Conditionals (if/else)
+## 5. Control Flow: Types of Operators
 
 This is where your script begins to "think."  
 Like any other programming langauge like Java or C#, there are operator types and this typesa are used for different conditions, to achieve different goals
@@ -220,46 +221,42 @@ Like any other programming langauge like Java or C#, there are operator types an
 
 <br>
 
-**`Types of Oeprations in bash scripting`**
+**Types of Oeprators in bash scripting**
 
-1. **Arithmetic Operators**: Used for math.
-   * **Context**: Must be used inside `(( ))` or with the let command
-   * **Logic**: Standard math symbols apply (`+`, `-`, `*`, `/`, `%` `**`)
-
-2. **Comparison Operators** (Integer vs. String)
-   * **Integer**: Use mnemonic flags (`-eq`, -`ne`, -`lt`, -`gt)` inside `[[ ]]` OR use symbols inside `(( ))`
-   * **String**: Use symbols (==, !=, <, >) inside `[[ ]]`
-
-3. **File Test Operators** : These are unique to shell scripting and allow you to check the filesystem state before executing commands
-
-4. **Logical Operators**: Used to combine multiple tests
-   * `&&` (AND): Run second command only if the first succeeds
-   * `||` (OR): Run second command only if the first fails
-
-<br>
-
-1. The `[ ]` (test) vs `[[ ]]` (extended test)
+1. Test & Extended Test
+   * `[ ]` Test
+   * `[[ ]]` Extended Test
    * `[ ]` is the `POSIX` standard. It is portable but finicky with spaces and wildcards
    * `[[ ]]` is a Bash-specific keyword. It is safer, supports logical operators like `&&` and `||` natively, and handles empty variables better
    * Use `[[ ]]` for Bash scripts as per industry standard
 
-2. **Numeric Comparisons**: These use "`mnemonic`" flags
-   * `-eq` (Equal)
-   * `-ne` (Not Equal)
-   * `-gt` (Greater Than)
-   * `-lt` (Less Than)
-   * Alternative: Use `(( ))` for C-style math logic. example: `if (( var > 10 )); then`
-   
-3. **String Comparisons**: These use `mathematical` symbols
-   * `==` (Equal)
-   * `!=` (Not Equal)
-   * `-z` (String is empty)
-   * `-n` (String is NOT empty)
+2. **Arithmetic Operators**: Used for math.
+   * **Context**: Must be used inside `(( ))` or with the let command
+   * **Logic**: Standard math symbols apply (`+`, `-`, `*`, `/`, `%` `**`)
 
-4. **File Testing**: One of the most powerful features for automation
-   * `-f` (Check if file exists)
-   * `-d` (Check if directory exists)
-   * `-x` (Check if executable)
+3. **Comparison Operators** (Integer vs. String)
+   * **Integer**: Use mnemonic flags inside `[[ ]]`
+     - `-eq` (Equal)
+     - `-ne` (Not Equal)
+     - `-gt` (Greater Than)
+     - `-lt` (Less Than)
+     - Alternative: Use `(( ))` for C-style math logic. example: `if (( var > 10 )); then`
+   * **String**: Use symbols inside `[[ ]]` using `mathematical` symbols
+     - `==` (Equal)
+     - `!=` (Not Equal)
+     - `<` (Greater Than)
+     - `>` (Less Than)
+     - `-z` (String is empty)
+     - `-n` (String is NOT empty)
+
+4. **File Test Operators** : These are unique to shell scripting and allow you to check the filesystem state before executing commands. It is one of the most powerful features for automation
+   - `-f` (Check if file exists)
+   - `-d` (Check if directory exists)
+   - `-x` (Check if executable)
+
+5. **Logical Operators**: Used to combine multiple tests
+   * `&&` (AND): Run second command only if the first succeeds
+   * `||` (OR): Run second command only if the first fails
 
 <br>
 
@@ -268,8 +265,10 @@ Like any other programming langauge like Java or C#, there are operator types an
 1. **The "Early Exit" Pattern**: Instead of nesting `if` statements deep, exit early if a condition isn't met. This keeps code readable (flat logic)
 2. **Double Quoting**: Always quote variables inside `[ ]` to prevent errors if a variable is null or contains spaces
 3. **Logical Combining**: Use `[[ $A == $B && $C == $D ]]` instead of nested if blocks
+4. **Math Logic**: For any complex calculation or numeric comparison, use `(( ))`. It is faster and more readable for developers coming from C/Java/Python backgrounds.
+5. **Exit Status**: The most important "operator" in a sense is `$?`. In professional scripts, every major command is followed by a check to see if the previous `exit status` was `0`
 
-example:
+example of operators in bash script:
 ```bash
 #!/bin/bash
 
@@ -294,12 +293,27 @@ fi
 
 <br>
 
+Comprehensive Operators Table
+
+| Category          | Operators                       | Syntax                    | Use Case                                   |
+| :---              | :---                            | :---                      | :---                                       |            
+| Arithmetic        | `+`, `-`, `*`, `/`, `%`         | `(( sum = a + b ))`       | Performing calculations                    |
+| Integer           | `-eq`, `-ne`, `-lt`, `-gt`      | `[[ $age -gt 18 ]]`       | Comparing whole numbers                    |
+| String            | `==`, `!=`, `<`, `>`            | `[[ $str1 == "admin" ]]`  | Validating text input                      |
+| File Test         | `-e`, `-f`, `-d`, `-s`          | `[[ -s $logfile ]]`       | Checking if file exists and is not empty   |
+| Logical           | `&&`, `\|\|`, `!`                 | `[[ $a && $b ]]`          | Combining multiple conditions              |
+| Redirection       | `>`, `>>`, `2>`, `&>`           | `cmd &> /dev/null`        | Handling output and error logs             |
+
+<br>
+
+Comprehensive Comparition Table
+
 | Comparison Type         | Syntax Example            | Notes & Description                                          |
 | :---                    | :---                      | :---                                                         |
 | Numeric                 | `[[ $a -eq $b ]]`         | Use `-gt` ( > ), `-lt` ( < ), `-ge` ( >= ), `-le` ( <=)      |
 | String                  | `[[ "$a" == "$b" ]]`      | Always quote strings to handle spaces safely                 |
-| Logical AND             | `[[ cond1 && cond2 ]]`    | Returns `true` only if both conditions are me                |                     
-| Logical OR              | `[[ cond1 || cond2 ]]`    | Returns `true` if at least one condition is met              |
+| Logical AND             | `[[ cond1 && cond2 ]]`    | Returns `true` only if all conditions are met                |
+| Logical OR              | `[[ cond1 \|\| cond2 ]]`  | Returns `true` if at least one condition is met              |
 | Null Check              | `[[ -z "$var" ]]`         | Returns true if the string length is zero (empty variable)   |
 | File Exists             | `[[ -f "$file" ]]`        | `-f` regular file, `-d` directory, `-e` any existence        |
 
@@ -318,6 +332,121 @@ fi
 >    exit 1
 >   fi
 >   ```
+
+<br>
+
+## 6. Control Flow: Conditionals (if/else)
+
+In industrial automation, the if statement is the "gatekeeper." It ensures that a script doesn't execute dangerous commands (like deleting a database) unless specific safety conditions are met.
+
+### 1. The Simple `if` Statement (The Guard)
+
+This is used for `mandatory checks`. If the condition isn't met, the script simply stops or skips the action.
+
+`Industrial Example`: Root User Check  
+Many system-level tasks (like installing packages or managing users) require root privileges.
+
+```bash
+#!/bin/bash
+
+# Standard check: UID 0 is always the root user
+if [[ $EUID -ne 0 ]]; then
+   echo "ERROR: This script must be run as root (sudo)."
+   exit 1
+fi
+
+echo "Access granted. Proceeding with system update..."
+```
+
+<br>
+
+### 2. The `if-else` Statement (The Binary Choice)
+
+This is used when you have two distinct paths: "`Success Path`" and "`Failure Path`"
+
+`Industrial Example`: Connectivity Check  
+A DevOps engineer might use this to verify if a remote server or API is reachable before starting a deployment.
+
+```bash
+#!/bin/bash
+
+SERVER="google.com"
+
+# -q (quiet) silences output; -c 1 sends one packet
+if ping -c 1 "$SERVER" &> /dev/null; then
+    echo "[SUCCESS] Network is up. Starting deployment..."
+    # deploy_code_function
+else
+    echo "[FAILURE] Network is down. Aborting and logging error."
+    exit 1
+fi
+```
+
+<br>
+
+### 3. The `if-elif-else` Ladder (The Multi-Decision)
+
+This is used for complex scenarios where there are `more than` two possible states. The script checks conditions from top to bottom and stops at the first one that is true.
+
+`Industrial Example`: Deployment Environment Selector  
+In professional software engineering, code is usually deployed to different environments (Dev, Staging, Production) based on an input argument.  
+
+```bash
+#!/bin/bash
+
+ENV=$1
+
+if [[ "$ENV" == "prod" ]]; then
+    echo "DEPLOING TO: Production (High Priority/Caution)"
+    DATABASE_URL="prod-db.example.com"
+elif [[ "$ENV" == "staging" ]]; then
+    echo "DEPLOYING TO: Staging (Testing Environment)"
+    DATABASE_URL="staging-db.example.com"
+elif [[ "$ENV" == "dev" ]]; then
+    echo "DEPLOYING TO: Development (Local/Sandbox)"
+    DATABASE_URL="localhost"
+else
+    echo "Invalid environment: '$ENV'"
+    echo "Usage: $0 {prod|staging|dev}"
+    exit 1
+fi
+```
+
+<br>
+
+**Comparison Table**: Conditional Structures
+
+| Structure   | Logic Type     | Best Use Case                                          |
+| :---        | :---           | :---                                                   |
+| if          | Single Gate    | Security checks (Root user, file existence)            |
+| if-else     | Binary Choice  | Success/Failure (Ping check, Service status)           |
+| if-elif     | Multi-Choice   | Environment selection, severity levels (High/Med/Low)  |
+
+<br>
+
+## 7. Control Flow: File Test Operators
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
