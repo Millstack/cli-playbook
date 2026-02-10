@@ -70,7 +70,31 @@ There are two primary ways to execute your scripts:
 
 <br>
 
-## 3. Data Handling & Variables
+## 3. Script Formatting In Editor
+
+* **Single Line**: Use `#` for logic explanation
+* **Block Comments**: Use a "`Here Document`" to disable large chunks of code. The first word/character should also be same at last.
+  `example:`
+  ```bash
+   << COMMENT
+      Everything in here is ignored by the shell.
+      Useful for documentation or debugging.
+   COMMENT
+  ```
+
+<br>
+
+## 4. Text Editor: **Vim**
+
+
+
+
+
+
+<br>
+
+
+## 5. Data Handling & Variables
 
 Variables allow your scripts to be dynamic rather than hard-coded. Following are the use of variables
 - to hold data one time, and repeate the variable instead of hard-coded data throughout the script
@@ -121,7 +145,7 @@ Types of user input:
 
 <br>
 
-## 4. Script Arguments (Runtime Inputs)
+## 6. Script Arguments (Runtime Inputs)
 
 Arguments allow you to pass data into a script at the moment of execution using an index-based approach.  
 In Bash scripting, arguments passed to a script are referred to as `Positional Parameters` ($0, $1, $2, etc.)  
@@ -210,7 +234,7 @@ This shows how these parameters work together in a production-ready script
 
 <br>
 
-## 5. Control Flow: Types of Operators
+## 7. Control Flow: Types of Operators
 
 This is where your script begins to "think."  
 Like any other programming langauge like Java or C#, there are operator types and this typesa are used for different conditions, to achieve different goals
@@ -335,7 +359,7 @@ Comprehensive Comparition Table
 
 <br>
 
-## 6. Control Flow: Conditionals (if/else)
+## 8. Control Flow: Conditionals (if/else)
 
 In industrial automation, the if statement is the "gatekeeper." It ensures that a script doesn't execute dangerous commands (like deleting a database) unless specific safety conditions are met.
 
@@ -416,22 +440,82 @@ fi
 
 **Comparison Table**: Conditional Structures
 
-| Structure   | Logic Type     | Best Use Case                                          |
-| :---        | :---           | :---                                                   |
-| if          | Single Gate    | Security checks (Root user, file existence)            |
-| if-else     | Binary Choice  | Success/Failure (Ping check, Service status)           |
-| if-elif     | Multi-Choice   | Environment selection, severity levels (High/Med/Low)  |
+| Structure     | Logic Type     | Best Use Case                                          |
+| :---          | :---           | :---                                                   |
+| `if`          | Single Gate    | Security checks (Root user, file existence)            |
+| `if-else`     | Binary Choice  | Success/Failure (Ping check, Service status)           |
+| `if-elif`     | Multi-Choice   | Environment selection, severity levels (High/Med/Low)  |
 
 <br>
 
-## 7. Control Flow: File Test Operators
+## 9. Control Flow: File Test Operators
 
+In Linux, "`everything is a file`" and Test operators allow you to probe the metadata of a file or directory before performing an action.
 
+1. Existence & Type:
+   * `-e`: Checks if the entity exists (could be a file, directory, or socket
+   * `-f`: Specifically checks if it is a regular file (not a directory)
+   * `-d`: Specifically checks if it is a directory
+2. Permissions:
+   * `-r`: Checks if the file is readable by the user running the script
+   * -`w`: Checks if the file is writable
+   * `-x`: Checks if the file is executable
+3. Content & Size:
+   * `-s`: Checks if the file is not empty (size > 0). This is great for log rotation scripts
+   * `-nt`: Checks if one file is newer than another (file1 -nt file2). Essential for build scripts or backups.
 
+<br>
 
+### Industrial Standard Approaches
+* **The Sanity Check**: Professionals never assume a file exists. Every script starts by validating its dependencies
+* **Temporary Files**: Using -e to check if a lock file exists prevents a script from running twice simultaneously
+* **Error Silencing**: Often combined with `/dev/null` to keep the terminal clean during checks
 
+`Example`: Database Backup Prep
 
+```bash
+#!/bin/bash
+# Industrial Example: Database Backup Prep
 
+BACKUP_DIR="/var/backups/db"
+CONFIG_FILE="/etc/db_config.conf"
+
+# 1. Check if config exists AND is readable
+if [[ ! -r "$CONFIG_FILE" ]]; then
+    echo "Error: Config file missing or not readable."
+    exit 1
+fi
+
+# 2. Check if backup directory exists; if not, create it
+if [[ ! -d "$BACKUP_DIR" ]]; then
+    echo "Directory missing. Creating $BACKUP_DIR..."
+    mkdir -p "$BACKUP_DIR"
+fi
+
+# 3. Check if we have write permissions to the directory
+if [[ ! -w "$BACKUP_DIR" ]]; then
+    echo "Error: No write access to $BACKUP_DIR."
+    exit 1
+fi
+```
+<br>
+
+**File Test Operators Cheat Sheet**
+
+| Operator	   |  Description	      | Industrial Use Case                                    |
+| :---         | :---               | :---                                                   |
+| `-e`	      | Entity exists	   | General check before any operation.                    |
+| `-f`	      | Is a regular file	| Ensure you aren't trying to cat a directory.           |
+| `-d`	      | Is a directory	   | Validation before cd or mkdir.                         |
+| `-s`	      | File is not empty	| Checking if a log file actually has data to process.   |
+| `-r`	      | Is readable	      | Checking if you can read a config file or API key.     |
+| `-w`	      | Is writable	      | Checking if a log or temp folder is accessible.        |
+| `-x`	      | Is executable	   | Verifying if a binary (like git or curl) is installed. |
+| `-L`	      | Is a symbolic link	| Handling shortcuts/symlinks in system paths.           |
+
+<br>
+
+## 10. Control Flow: 
 
 
 
