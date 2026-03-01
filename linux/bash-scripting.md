@@ -1,11 +1,10 @@
 # Bash Scripting Basics
 
-<img src="https://camo.githubusercontent.com/3260db74bd21a8e5f85e6ed76ab5208bde6110edd524ebf9e82a80c1af084eae/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e75782d4643433632343f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e7578266c6f676f436f6c6f723d626c7565" 
-   alt="Logo" width="80">
-<img src="https://camo.githubusercontent.com/4444e7dc10a4ea255220752d50c1d5d979876f5fbe4b091da675032627ec5cd8/68747470733a2f2f6261646765732e66726170736f66742e636f6d2f626173682f76312f626173682e706e673f763d313033295d2868747470733a2f2f6769746875622e636f6d2f656c6c657262726f636b2f6f70656e2d736f757263652d626164676573" 
-   alt="Logo" width="80" style="margin-top:10px;">
-<img src="https://camo.githubusercontent.com/cd76c860c27fd7b498a92489d6d3a2c20c94247f5f62e928bb875ca3b7e59b3a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f7368656c6c5f7363726970742d2532333132313031312e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d676e752d62617368266c6f676f436f6c6f723d7768697465" 
-   alt="Logo" width="80" height="80">
+<p align="left">
+ <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=blue" height=21 width=80>
+ <img src="https://badges.frapsoft.com/bash/v1/bash.png?v=103)](https://github.com/ellerbrock/open-source-badges">
+ <img src="https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white" height=22 width=110>
+<p>
 
 
 ## 1. Fundamentals & The Environment
