@@ -369,8 +369,8 @@ ng serve --configuration production
 
 `Build`
 ```bash
-ng build
-ng build --configuration production   // modern replacement for --prod
+ng build // in modern angular app (v12+), defaultconfiguration: production, env.ts replaces with env.prod.ts
+ng build --configuration (-c) production   // modern replacement for --prod (v11 or below)
 ng build --watch
 ng build --source-map
 ng build --stats-json
