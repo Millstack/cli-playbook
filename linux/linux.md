@@ -9,7 +9,8 @@ Below are the overall topics to be covered in this `linux commands` documentatio
 
 | Topic        | Subtopic                             | URL                                                                                        |
 | ------------ | ------------------------------------ | -------------------------------------------------------------------------------------------|
-| Linux        | Linux Intro, Commands, FS Hierarchy  |  [Open](https://github.com/Millstack/cli-playbook/blob/main/linux/linux-history.md)        |
+| Linux        | Linux Intro & History                |  [Open](https://github.com/Millstack/cli-playbook/blob/main/linux/linux-history.md)        |
+|              | Linux Commands & FS Hierarchy        |                                                                                            |
 |              | File & Directory operations          |                                                                                            |
 |              | Permissions & ownership              |                                                                                            |
 |              | Users & groups                       |                                                                                            |
