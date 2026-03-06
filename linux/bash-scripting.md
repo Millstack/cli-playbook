@@ -1079,18 +1079,18 @@ echo "Audit Complete. Report saved to $REPORT_FILE"
 
 `Summary Comparison Table`
 
-| Loop Logic | Best Used For         | Example Use Case                                               |
-|-----------------------------------------------------------------------------------------------------|
+| Loop Logic   | Best Used For       | Example Use Case                                               |
+|--------------|---------------------|----------------------------------------------------------------|
 | `for`        | Iterate over a list | Fixed sets (Servers, Files, Array elements)                    |
 | `while`      | Repeat while True   | Streaming data (Reading files), Background monitors            |
 | `until`      | Repeat until True   | Polling (Waiting for a service or cloud resource to go 'Live') |
 
 <br>
 
-`Comparison: The Loop Decision Matrix`
+`The Loop Decision Matrix`
 
 | If you want to...                          | Use this Loop  | Example Context                  |
-|------------------------------------------------------------------------------------------------|
+|--------------------------------------------|----------------|----------------------------------|
 | Process every file in a directory          | **for**        | Batch file renaming              |
 | Apply a change to a list of IP addresses   | **for**        | Network configuration            |
 | Read a 1GB CSV file without crashing RAM   | **while read** | Memory-efficient streaming       |
@@ -1098,5 +1098,108 @@ echo "Audit Complete. Report saved to $REPORT_FILE"
 | Wait for a URL to return a 200 OK status   | **until**      | Polling for service availability |
 
 <br>
+
+The "`Loop Selection`" Cheat Sheet
+
+| Scenario                 | Recommended Loop | Why?                                                   |
+| :----------------------- | :--------------- | :---------------------------------------------------   |
+| Fixed Inventory          | **for**          | You know exactly which items to touch.                 |
+| Continuous Monitor       | **while true**   | It needs to run until the server shuts down.           |
+| File Processing          | **while read**   | Safest way to handle large data without memory spikes. |
+| Wait for External Event  | **until**        | Logic should "block" until a success state is reached  |
+
+<br>
+
+## 12. Modular Scripting: Functions & Reusability
+
+* In the industry, we avoid repeating code
+* If you find yourself writing the same `if` check or `for loop` in multiple scripts, you move that logic into a `Function`
+
+### 1. Why Functions?
+* **DRY** (Don't Repeat Yourself): Write once, use everywhere
+* **Readability**: Hides complex logic behind a simple name like `check_disk_space`
+* **Maintenance**: If the logic for a "Healthy Server" changes, you only update it in one place
+
+### 2. Standard Function Structure
+```bash
+# Recommendation: Use the 'function' keyword for clarity
+function log_message() {
+    local MESSAGE="$1" # 'local' prevents variable leakage
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $MESSAGE"
+}
+
+# Usage
+log_message "Deployment started."
+```
+
+<br>
+
+## 13. The "Master Automation Project" (Final Implementation)
+
+This script combines Functions, File Tests, For Loops, and While Loops. It represents a professional "System Health & Cleanup" tool
+
+```bash
+#!/bin/bash
+# =================================================================
+# Script Name:  sys_guardian.sh
+# Description:  Automated Health Check & Log Cleanup
+# Author:       Milind Khamkar
+# =================================================================
+
+# --- 1. Variables & Config ---
+LOG_DIR="/var/log/myapp"
+THRESHOLD=90
+REPORT_FILE="/tmp/health_report.txt"
+
+# --- 2. Reusable Functions ---
+function check_status() {
+    local SERVICE=$1
+    if systemctl is-active --quiet "$SERVICE"; then
+        echo "[OK] $SERVICE is running."
+    else
+        echo "[FAIL] $SERVICE is down!" >> "$REPORT_FILE"
+    fi
+}
+
+function cleanup_logs() {
+    echo "Scanning $LOG_DIR for old logs..."
+    # Use 'for' to iterate through files
+    for FILE in "$LOG_DIR"/*.log; do
+        # Use 'File Test' to see if file is not empty and older than 7 days
+        if [[ -s "$FILE" ]]; then
+            echo "Archiving $FILE..."
+            # Logic: zip and clear
+        fi
+    done
+}
+
+# --- 3. Main Logic Flow ---
+
+# Step A: Validate Environment (File Test)
+if [[ ! -d "$LOG_DIR" ]]; then
+    echo "Error: Log directory missing. Creating now..."
+    mkdir -p "$LOG_DIR"
+fi
+
+# Step B: Monitor System (While Loop)
+# Reading a list of critical services from a config file
+while read -r SERVICE_NAME; do
+    check_status "$SERVICE_NAME"
+done < "services_list.txt"
+
+# Step C: Cleanup
+cleanup_logs
+
+echo "System Check Complete. Report at $REPORT_FILE"
+```
+
+
+
+
+
+
+
+
+
 
 
