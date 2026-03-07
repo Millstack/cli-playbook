@@ -5,7 +5,6 @@
 * The very bottom (or start) is called the **Root**, represented by a single forward slash: `/`
 * Every single file, folder, and even your hardware (like hard drives and USBs) exists somewhere under this root
 * The Filesystem Hierarchy Standard (FHS) defines the directory structure and directory contents in Unix-like operating systems
-* 
 
 <br>
 
