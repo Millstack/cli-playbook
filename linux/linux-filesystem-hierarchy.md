@@ -10,10 +10,12 @@
 
 Breakdown of the major directories, based on the architecture of a standard `Linux system`
 
-<img src="linux/assets/images/linux-fs-hierarchy.gif" width="800px" alt="linux-fs-hierarchy">
+<img src="assets/images/linux-fs-hierarchy.gif" width="500px" height="550px" alt="linux-fs-hierarchy">
+
+``![Linux Hierarchy](assets/images/linux-fs-hierarchy.gif)``
 
 | Directory | Name / Purpose          | Industrial Cloud Use Case                                                |
-| :-------- | :---------------------- | :-------------------------------- :------------------------------------- |
+| :-------- | :---------------------- | :----------------------------------------------------------------------- |
 | `/`       | **Root**                | The base of the entire system. Every file resides here.                  |
 | `/bin`    | **User Binaries**       | Essential command binaries (`ls`, `cp`, `ping`) for all users.           |
 | `/boot`   | **Static Boot Files**   | Contains the Linux kernel and bootloader files to start the system.      |
@@ -32,14 +34,12 @@ Breakdown of the major directories, based on the architecture of a standard `Lin
 | `/usr`    | **User Resources**      | Contains the majority of user utilities and applications.                |
 | `/var`    | **Variable Data**       | Log Central. Contains files that change frequently (`/var/log`).         |
 
-Pro-Tip for Cloud Engineers
-When working with AWS or Azure, you'll spend 90% of your troubleshooting time in:
 
-/etc (to fix a broken Nginx/Apache config)
-
-/var/log (to see why a service crashed)
-
-/mnt or /dev (when attaching new storage volumes)
+>[!NOTE]
+> When working with cloud platform, most of the time will be in troubleshooting:  
+> * `/etc` (to fix a broken Nginx/Apache config)  
+> * `/var/log` (to see why a service crashed)  
+> * `/mnt` or `/dev` (when attaching new storage volumes)  
 
 <br>
 
