@@ -1,0 +1,67 @@
+################################################################################
+# 1. IDE & OS Files
+################################################################################
+.vs/
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+.DS_Store
+Thumbs.db
+
+################################################################################
+# 2. .NET Project Specific
+################################################################################
+# Build results
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
+
+# Publish output
+publish/
+
+# Entity Framework & SQL Server
+*.mdf
+*.ldf
+*.log
+App_Data/
+
+################################################################################
+# 3. Angular Specific
+################################################################################
+# Dependencies (Never push these!)
+node_modules/
+
+# Production builds
+/dist/
+/.angular/
+
+# Logs and coverage
+npm-debug.log*
+yarn-error.log*
+/coverage/
+
+################################################################################
+# 4. Environment & Security (CRITICAL)
+################################################################################
+# Secrets and Keys
+.env
+.env.*
+appsettings.Development.json
+*.pfx
+*.p12
+*.pem
+*.key
+
+################################################################################
+# 5. Infrastructure & Logs
+################################################################################
+# Logs
+/Logs/
+*.log
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
