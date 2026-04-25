@@ -125,6 +125,79 @@ When working with an existing project or updating your local copy.
   }
   ```
 
+<br>
+
+## 6. Resolving Merge Conflicts
+
+When Git hits a conflict, it effectively stops time and asks us to be the judge and decide what to do next.
+
+### 6.1. The Conflict Resolution Workflow
+
+| Command                     | Description / Purpose                                        |
+|-----------------------------|--------------------------------------------------------------|
+| `git status`                | Identifies which specific files have "both modified" status  |
+| `git diff`                  | View the exact line-by-line differences causing the conflict |
+| `git add <file>`            | Stages the file after you manually removed the `<<<<` markers|
+| `git merge --continue`      | Completes the merge process after all conflicts are staged   |
+| `git merge --abort`         | The "Undo" button: Cancels the merge and returns to normal   |
+| `git commit -m "msg"`       | Finalizes the resolution with a merge commit message         |
+
+### 6.2. Understanding the Markers
+
+When we open a conflicted file, Git inserts these markers to show you exactly where the "collision" happened.
+
+```bash
+<<<<<<< HEAD
+    // This is YOUR local code
+    return "My Version";
+=======
+    // This is THEIR incoming code
+    return "Their Version";
+>>>>>>> feature-branch
+```
+>[!NOTE]
+> * To minimize these scenarios, pull frequently.
+> * The longer your branch stays diverged from the main code, the higher the chance of a "mega-conflict" later.
+
+<br>
+
+## 7. Undoing Mistakes
+
+Every developer makes mistakes. Here is how to travel back in time safely.
+
+| Scenario                 | Command                           | Description / Result                            |
+|--------------------------|-----------------------------------|-------------------------------------------------|
+| `Unstage a file`         | `git reset <file>`                | Removes file from Staging; keeps local changes  |
+| `Fix last commit`        | `git commit --amend -m "msg"`     | Overwrites the last commit with new data/msg    |
+| `Undo pushed code`       | `git revert <hash>`               | Creates a NEW commit that undoes a past one     |
+| `Discard local changes`  | `git restore <file>`              | Wipes local changes; reverts to last commit     |
+| `Undo local commit`      | `git reset --soft HEAD~1`         | Deletes commit but keeps code in Staging        |
+| `Hard Reset (DANGEROUS)` | `git reset --hard HEAD~1`         | Deletes commit AND wipes all code changes       |
+| `The Ultimate Undo`      | `git reflog`                      | Shows a log of ALL actions (even deleted ones)  |
+
+
+>[!NOTE]
+>* Use `revert` for shared/pushed branches because it adds to the history without deleting anything, which prevents merge conflicts for your teammates.
+>* Use `reset` only for your local, unpushed work where you want to clean up your own "messy" history.
+>* If you accidentally run a `git reset --hard` and lose your work, don't panic. Run `git reflog`. It tracks every move the HEAD has made in the last 30-90 days, allowing you to recover commits that appear to be "deleted."
+>* Be careful with `git commit --amend` if you have already pushed. If you amend a pushed commit, you will have to git push --force, which can disrupt others working on the same branch.
+
+<br>
+
+### 8. Git Log & Inspection
+
+| Command                          | Description / Purpose                               |
+|----------------------------------|-----------------------------------------------------|
+| `git log --oneline`              | View a condensed, one-line history of commits       |
+| `git log --oneline --graph --all`| View a visual tree of all branches and tags         |
+| `git diff`                       | Compare working directory vs. the last commit       |
+| `git diff --staged`              | Compare staged changes vs. the last commit          |
+| `git show <hash>`                | View the specific code changes in a single commit   |
+| `git blame <file>`               | See who changed which line of a file and when       |
+| `git reflog`                     | The "Master Undo": Log of every action taken locally|
+
+
+
 
 
 
