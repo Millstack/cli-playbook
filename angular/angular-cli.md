@@ -154,6 +154,11 @@ npx -p @angular/cli@20
 ```bash
 ng new angular-portfolio --style=css --routing --strict --ssr=false --skip-tests
 ```
+```bash
+npx -p @angular/cli@20 ng new manatrupta-web --directory=. --style=css --routing --strict --ssr=false --skip-tests
+```
+**Note**: `--directory=.` overrides angular and tells to load all files into current directory
+
 
 <br/>
 
