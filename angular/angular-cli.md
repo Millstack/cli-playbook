@@ -268,13 +268,23 @@ ng generate component foldername/componentname --skip-tests
 ```bash
 # short form for generate component
 ng g c foldername/componentname --skip-tests
+```
 
+```bash
 # short form for generate service
 ng g s services/auth
+```
 
+```bash
 # short form for generate module
 ng g m features/shared/models/CommonModels
 ```
+
+```bash
+# to generate directive
+ng g d shared/directive/reveal-directive
+```
+
 ```bash
 # shows the intended outcome of the command in the console only, but no physical output
 ng g c foldername/componentname --skip-tests --dry-run
