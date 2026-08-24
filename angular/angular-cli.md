@@ -286,6 +286,11 @@ ng g d shared/directive/reveal-directive
 ```
 
 ```bash
+# to generate custom pipe
+ng g p shared/pipe/text-highlight --skip-tests
+```
+
+```bash
 # shows the intended outcome of the command in the console only, but no physical output
 ng g c foldername/componentname --skip-tests --dry-run
 ```
